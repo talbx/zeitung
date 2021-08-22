@@ -5,9 +5,10 @@ import {PodcastModule} from "./zeitung-services/podcasts/podcast.module";
 import {MailModule} from "./zeitung-services/mail/mail.module";
 import {NewsModule} from "./zeitung-services/news/news.module";
 import {UserConfigModule} from "./zeitung-services/user-config/user-config.module";
+import {CoronaStatusModule} from "./zeitung-services/corona-status/corona-status.module";
 
 @Module({
-  imports: [PodcastModule, MailModule, NewsModule, UserConfigModule, CacheModule.register()],
+  imports: [PodcastModule, MailModule, NewsModule, UserConfigModule, CacheModule.register(), CoronaStatusModule],
   controllers: [ZeitungController],
   providers: [ZeitungService],
 })

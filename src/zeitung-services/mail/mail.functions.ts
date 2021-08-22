@@ -1,4 +1,4 @@
-import {NewsUpdate, PodcastUpdate, UserConfig} from "../../model/model";
+import {UserConfig, ZeitungUpdates} from "../../model/model";
 
 export const constructMailTemplate = (): string => {
 
@@ -51,18 +51,42 @@ export const constructMailTemplate = (): string => {
         "</div>";
 
 
-    return mailHeader + podcastContent + newsContent + "</div>";
+    const coronaContent =
+        "<div class=\"card\" style=\"margin: 25px;\">\n" +
+        "  <div class=\"card-body\">\n" +
+        "<h2 class=\"card-title\">Die heutigen Corona Zahlen</h2>" +
+        "                   {{#each coronaUpdate}}\n" +
+        "<ul class=\"list-group\">\n" +
+        "  <li class=\"list-group-item d-flex justify-content-between align-items-center\">\n" +
+        "    <h3>Corona Fälle Insgesamt" +
+        "    <span class=\"badge bg-primary rounded-pill\">{{cases}}</span></h3>\n" +
+        "  </li>\n" +
+        "  <li class=\"list-group-item d-flex justify-content-between align-items-center\">\n" +
+        "    <h3>Tote" +
+        "    <span class=\"badge bg-primary rounded-pill\">{{deaths}}</span></h3>\n" +
+        "  </li>\n" +
+        "  <li class=\"list-group-item d-flex justify-content-between align-items-center\">\n" +
+        "    <h3>7-Tages Inzidenz" +
+        "    <span class=\"badge bg-primary rounded-pill\">{{weekIncidence}}</span></h3>\n" +
+        "  </li>\n" +
+        "</ul>" +
+        "                   {{/each}}\n" +
+        "  </div>\n" +
+        "</div>";
+
+
+    return mailHeader + podcastContent + newsContent + coronaContent + "</div>";
 }
 
 export const MAIL_TEMPLATE = "ZEITUNG_TEMPLATE_V1";
 
 
-export const buildReplacementString = (podcasts: PodcastUpdate[], news: NewsUpdate[], userConfig: UserConfig): string => {
-    const poddyUpdates = podcasts
+export const buildReplacementString = (allUpdates: ZeitungUpdates, userConfig: UserConfig): string => {
+    const poddyUpdates = allUpdates.podcastUpdate
         .filter(val => val !== undefined)
         .map(update => "{\"podcastTitle\": \"" + update.podcastName + "\", \"episodeTitle\": \"" + update.episodeTitle + "\", \"artworkUrl\": \"" + update.artworkUrl + "\", \"releaseDate\": \"" + update.date + "\"}")
 
-    const newsUpdates = news
+    const newsUpdates = allUpdates.newsUpdates
         .filter(val => val !== undefined)
         .map(update => "{\"title\": \"" + update.title + "\", \"description\": \"" + update.description + "\", \"urlToImage\": \"" + update.urlToImage + "\", \"author\": \"" + update.author + "\"}")
 
@@ -73,8 +97,11 @@ export const buildReplacementString = (podcasts: PodcastUpdate[], news: NewsUpda
     }
 
     if (newsUpdates.length !== 0) {
-        finalString += "\"articleUpdate\": [" + newsUpdates.join(", ") + "]}";
+        finalString += "\"articleUpdate\": [" + newsUpdates.join(", ") + "], ";
     }
+    const covidUpdate = "\"coronaUpdate\": [{\"cases\": " + allUpdates.coronaUpdate.cases + ",\"deaths\": " + allUpdates.coronaUpdate.deaths + ",\"weekIncidence\": " + allUpdates.coronaUpdate.weekIncidence.toFixed(2) + "}]}"
+
+    finalString += covidUpdate;
     console.log(finalString)
     return finalString;
 }

@@ -1,6 +1,6 @@
 import {CACHE_MANAGER, Inject, Injectable, Logger} from '@nestjs/common';
 import {buildReplacementString, MAIL_TEMPLATE} from "./mail.functions";
-import {NewsUpdate, PodcastUpdate, UserConfig, ZEITUNG_CONFIG} from "../../model/model";
+import {UserConfig, ZEITUNG_CONFIG, ZeitungUpdates} from "../../model/model";
 import {Cache} from "cache-manager";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const AWS = require('aws-sdk');
@@ -12,7 +12,7 @@ export class MailingService {
 
     constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {
     }
-    async mail(podcastUpdates: PodcastUpdate[], newsUpdates: NewsUpdate[]): Promise<any> {
+    async mail(allUpdates: ZeitungUpdates): Promise<any> {
 
         AWS.config.update({region: 'eu-central-1'});
         const userConfig: UserConfig = await this.cacheManager.get(ZEITUNG_CONFIG);
@@ -24,7 +24,7 @@ export class MailingService {
             },
             Source: userConfig.email,
             Template: MAIL_TEMPLATE,
-            TemplateData: buildReplacementString(podcastUpdates, newsUpdates, userConfig),
+            TemplateData: buildReplacementString(allUpdates, userConfig),
             ReplyToAddresses: [],
         };
 

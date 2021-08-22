@@ -23,8 +23,10 @@ export interface NewsUpdate {
     author: string;
 }
 
-export interface MailNews {
-    podcastUpdates: PodcastUpdate[];
+export interface ZeitungUpdates {
+    podcastUpdate: PodcastUpdate[];
+    newsUpdates: NewsUpdate[];
+    coronaUpdate: CoronaUpdate
 }
 
 export interface UserConfig {
@@ -32,6 +34,12 @@ export interface UserConfig {
     name: string;
     email: string
     podcasts: number[]
+}
+
+export interface CoronaUpdate {
+    cases: number;
+    deaths: number;
+    weekIncidence: number
 }
 
 export const ZEITUNG_CONFIG = "ZEITUNG_CONFIG";
