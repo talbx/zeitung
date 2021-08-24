@@ -103,5 +103,5 @@ export const buildReplacementString = (allUpdates: ZeitungUpdates, userConfig: U
 
     finalString += covidUpdate;
     console.log(finalString)
-    return finalString;
+    return finalString.replace(/\n/, "");
 }
