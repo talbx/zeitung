@@ -7,6 +7,6 @@ export class ZeitungController {
 
   @Get('/hello')
   getHello(): Promise<any> {
-    return this.appService.trigger();
+    return this.appService.trigger("any");
   }
 }

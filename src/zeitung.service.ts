@@ -23,7 +23,8 @@ export class ZeitungService {
 
     private readonly logger = new Logger(ZeitungService.name);
 
-    async trigger(): Promise<any> {
+    async trigger(event: any): Promise<any> {
+        this.logger.log("Incoming Event " + JSON.stringify(event));
         await this.userConfigService.loadUserConfig();
         this.logger.log('Starting Update');
         const x: PodcastUpdate[] = await this.podcastService.getUpdate();

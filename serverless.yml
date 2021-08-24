@@ -21,11 +21,7 @@ functions:
   index:
     handler: dist/index.handler
     events:
-    - http:
-        cors: true
-        path: '/'
-        method: any
-    - http:
-        cors: true
-        path: '{proxy+}'
-        method: any
+    - eventBridge:
+          schedule: rate(2 minutes)
+          input:
+            key1: value1

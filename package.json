@@ -33,7 +33,8 @@
     "handlebars": "^4.7.7",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^6.5.4"
+    "rxjs": "^6.5.4",
+    "serverless-offline-aws-eventbridge": "^1.6.3"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.1.1",
