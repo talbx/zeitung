@@ -1,10 +1,11 @@
 {
   "name": "zeitung",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "description",
   "author": "",
   "license": "MIT",
   "scripts": {
+    "deploy": "rimraf dist .serverless && nest build && sls deploy",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
