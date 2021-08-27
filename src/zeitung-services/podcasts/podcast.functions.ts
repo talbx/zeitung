@@ -1,4 +1,4 @@
-import {format, isToday, parseISO} from "date-fns";
+import {format, isAfter, isToday, parseISO, sub} from "date-fns";
 import {PodcastUpdate} from "../../model/model";
 
 export const buildTargetUrl = (podcast: number) => `https://itunes.apple.com/lookup?id=${podcast}&media=podcast&entity=podcastEpisode&limit=1`;
@@ -19,10 +19,11 @@ export const createPodcastUpdate = (
     };
 };
 
-export const isPodcastReleasedToday = (data: any, callbackFn: (name: any, title: any, date: any, artworkUrl: any) => PodcastUpdate) => {
+export const isPodcastReleasedWithinLast24Hours = (data: any, callbackFn: (name: any, title: any, date: any, artworkUrl: any) => PodcastUpdate) => {
     const x = parseISO(data.results[1].releaseDate);
-
-    if (isToday(x)) {
+    const rightNow = new Date();
+    const rightNowMinus24Hours = sub(rightNow, {hours: 24});
+    if (isAfter(x, rightNowMinus24Hours)) {
         return callbackFn(data.results[0].collectionName,
             splice1(data.results[1].trackName),
             x,

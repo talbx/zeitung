@@ -1,7 +1,7 @@
 import {CACHE_MANAGER, Inject, Injectable, Logger} from '@nestjs/common';
 import {HttpService} from '@nestjs/axios';
 import {AbstractUpdateService} from "../abstract-update-service";
-import {buildTargetUrl, createPodcastUpdate, isPodcastReleasedToday} from "./podcast.functions";
+import {buildTargetUrl, createPodcastUpdate, isPodcastReleasedWithinLast24Hours} from "./podcast.functions";
 import {PodcastUpdate, UserConfig, ZEITUNG_CONFIG} from "../../model/model";
 import {Cache} from "cache-manager";
 
@@ -21,7 +21,7 @@ export class PodcastService extends AbstractUpdateService<PodcastUpdate[]> {
                 return this.httpService
                     .get(buildTargetUrl(podcast))
                     .toPromise()
-                    .then((res) => isPodcastReleasedToday(res.data, createPodcastUpdate));
+                    .then((res) => isPodcastReleasedWithinLast24Hours(res.data, createPodcastUpdate));
             });
             return Promise.all(updates);
         });
