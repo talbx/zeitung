@@ -1,4 +1,4 @@
-import {UserConfig, ZeitungUpdates} from "../../model/model";
+import {UserConfig, ZeitungUpdates} from "../model/model";
 
 export const constructMailTemplate = (): string => {
 

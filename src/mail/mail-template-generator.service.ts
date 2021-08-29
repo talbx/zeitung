@@ -1,7 +1,7 @@
 import {CACHE_MANAGER, Inject, Injectable, Logger} from "@nestjs/common";
 import {constructMailTemplate, MAIL_TEMPLATE} from "./mail.functions";
 import {Cache} from "cache-manager";
-import {UserConfig, ZEITUNG_CONFIG} from "../../model/model";
+import {UserConfig, ZEITUNG_CONFIG} from "../model/model";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const AWS = require('aws-sdk');
 

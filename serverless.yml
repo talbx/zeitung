@@ -24,4 +24,14 @@ functions:
     - eventBridge:
           schedule: cron(0 6 * * ? *)
           input:
-            eventType: daily
+          eventType: daily
+
+    # only for testing
+    - http:
+        cors: true
+        path: '/'
+        method: any
+    - http:
+        cors: true
+        path: '{proxy+}'
+        method: any

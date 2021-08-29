@@ -15,6 +15,13 @@ export const buildNewsUpdate = (urlToImage: string, url: string, description: st
     }
 }
 
+export interface Appointment {
+    title: string;
+    startDate: Date;
+    endDate: Date;
+    isAllDay: boolean
+}
+
 export interface NewsUpdate {
     urlToImage: string;
     url: string;
@@ -26,7 +33,8 @@ export interface NewsUpdate {
 export interface ZeitungUpdates {
     podcastUpdate: PodcastUpdate[];
     newsUpdates: NewsUpdate[];
-    coronaUpdate: CoronaUpdate
+    coronaUpdate: CoronaUpdate;
+    appointments: Appointment[];
 }
 
 export interface UserConfig {

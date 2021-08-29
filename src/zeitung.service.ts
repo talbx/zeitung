@@ -1,12 +1,13 @@
 import {CACHE_MANAGER, Inject, Injectable, Logger} from '@nestjs/common';
 import {PodcastService} from "./zeitung-services/podcasts/podcast.service";
-import {MailingService} from "./zeitung-services/mail/mailing.service";
-import {MailTemplateGenerator} from "./zeitung-services/mail/mail-template-generator.service";
-import {PodcastUpdate, ZeitungUpdates} from "./model/model";
+import {ZeitungUpdates} from "./model/model";
 import {NewsService} from "./zeitung-services/news/news.service";
-import {UserConfigService} from "./zeitung-services/user-config/user-config.service";
 import {Cache} from "cache-manager"
 import {CoronaStatusService} from "./zeitung-services/corona-status/corona-status.service";
+import {MailingService} from "./mail/mailing.service";
+import {UserConfigService} from "./user-config/user-config.service";
+import {MailTemplateGenerator} from "./mail/mail-template-generator.service";
+import {CalendarService} from "./zeitung-services/calendar/calendar.service";
 
 @Injectable()
 export class ZeitungService {
@@ -17,6 +18,7 @@ export class ZeitungService {
         private readonly userConfigService: UserConfigService,
         private readonly contentWriter: MailTemplateGenerator,
         private readonly coronaService: CoronaStatusService,
+        private readonly calendarService: CalendarService,
         @Inject(CACHE_MANAGER) private cacheManager: Cache
     ) {
     }
@@ -26,19 +28,21 @@ export class ZeitungService {
     async trigger(event: any): Promise<any> {
         this.logger.log("Incoming Event " + JSON.stringify(event));
         await this.userConfigService.loadUserConfig();
-        this.logger.log('Starting Update');
-        const x: PodcastUpdate[] = await this.podcastService.getUpdate();
-        const news = await this.newsService.getUpdate();
-        const covid = await this.coronaService.getUpdate();
-        this.logger.log('Finished Update');
+        const allUpdates = await this.runUpdates();
         await this.contentWriter.generateTemplate();
-
-        const allUpdates: ZeitungUpdates = {
-            coronaUpdate: covid,
-            newsUpdates: news,
-            podcastUpdate: x
-        };
-        await this.mailingService.mail(allUpdates);
+        //await this.mailingService.mail(allUpdates);
         return allUpdates;
+    }
+
+    private async runUpdates(): Promise<ZeitungUpdates> {
+        this.logger.log('Starting Update');
+        const appointments = await this.calendarService.getUpdate();
+        const podcastUpdate = await this.podcastService.getUpdate();
+        const coronaUpdate = await this.coronaService.getUpdate();
+        const newsUpdates = await this.newsService.getUpdate();
+        this.logger.log('Finished Update');
+        return {
+            newsUpdates, coronaUpdate, podcastUpdate, appointments
+        };
     }
 }
