@@ -17,8 +17,8 @@ export const buildNewsUpdate = (urlToImage: string, url: string, description: st
 
 export interface Appointment {
     title: string;
-    startDate: Date;
-    endDate: Date;
+    startDate: string;
+    endDate: string;
     isAllDay: boolean
 }
 

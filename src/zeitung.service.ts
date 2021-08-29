@@ -30,7 +30,7 @@ export class ZeitungService {
         await this.userConfigService.loadUserConfig();
         const allUpdates = await this.runUpdates();
         await this.contentWriter.generateTemplate();
-        //await this.mailingService.mail(allUpdates);
+        await this.mailingService.mail(allUpdates);
         return allUpdates;
     }
 

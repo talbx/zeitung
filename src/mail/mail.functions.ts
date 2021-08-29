@@ -75,13 +75,37 @@ export const constructMailTemplate = (): string => {
         "</div>";
 
 
-    return mailHeader + podcastContent + newsContent + coronaContent + "</div>";
+    const calendarContent =
+        "<div class=\"card\" style=\"margin: 25px;\">\n" +
+        "  <div class=\"card-body\">\n" +
+        "<h2 class=\"card-title\">Heute stehen folgende Termine an!</h2>" +
+        "  <div class=\"row\">\n" +
+        "                   {{#each appointment}}\n" +
+        "    <div class=\"col-sm\">\n" +
+        "<div class=\"card shadow-lg\" style=\"width: 18rem;\">\n" +
+        "  <div css=\"card-body\">\n" +
+        "    <h5 class=\"card-title\">{{title}}</h5>\n" +
+        "    <p class=\"card-text\">{{startDate}}.</p>\n" +
+        "      <footer class=\"blockquote-footer\">{{endDate}}</footer>\n" +
+        "  </div>\n" +
+        "</div>" +
+        "    </div>\n" +
+        "                   {{/each}}\n" +
+        "  </div>" +
+        "  </div>\n" +
+        "</div>";
+
+
+    return mailHeader + calendarContent + podcastContent + newsContent + coronaContent + "</div>";
 }
 
 export const MAIL_TEMPLATE = "ZEITUNG_TEMPLATE_V1";
 
 
 export const buildReplacementString = (allUpdates: ZeitungUpdates, userConfig: UserConfig): string => {
+    const appointmentUpdates = allUpdates.appointments
+        .filter(val => val !== undefined)
+        .map(update => "{\"title\": \"" + update.title + "\", \"startDate\": \"" + update.startDate + "\", \"endDate\": \"" + update.endDate + "\"}")
     const poddyUpdates = allUpdates.podcastUpdate
         .filter(val => val !== undefined)
         .map(update => "{\"podcastTitle\": \"" + update.podcastName + "\", \"episodeTitle\": \"" + update.episodeTitle + "\", \"artworkUrl\": \"" + update.artworkUrl + "\", \"releaseDate\": \"" + update.date + "\"}")
@@ -94,6 +118,9 @@ export const buildReplacementString = (allUpdates: ZeitungUpdates, userConfig: U
 
     if (poddyUpdates.length !== 0) {
         finalString += "\"podcastUpdate\": [" + poddyUpdates.join(", ") + "],";
+    }
+    if(appointmentUpdates.length !== 0) {
+        finalString += "\"appointment\": [" + appointmentUpdates.join(", ") + "],";
     }
 
     if (newsUpdates.length !== 0) {
