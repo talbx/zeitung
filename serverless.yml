@@ -24,7 +24,7 @@ functions:
     - eventBridge:
           schedule: cron(0 6 * * ? *)
           input:
-          eventType: daily
+            eventType: daily
 
     # only for testing
     #- http:
