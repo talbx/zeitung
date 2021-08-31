@@ -20,10 +20,13 @@ export class NewsService extends AbstractUpdateService<NewsUpdate[]> {
             .then((articles: NewsUpdate[]) => articles.map(article => {
                 return {
                     ...article,
-                    title: article.title.replace(/"/g, " "),
-                    description: article.description?.replace(/"/g, " "),
+                    title: this.fixContent(article.title),
+                    description: this.fixContent(article.description),
                 };
             }))
     }
+
+
+    fixContent = (str: string): string => str?.replace(/"/g, " ").replace(/\n/g, " ")
 
 }

@@ -74,7 +74,6 @@ export const constructMailTemplate = (): string => {
         "  </div>\n" +
         "</div>";
 
-
     const calendarContent =
         "<div class=\"card\" style=\"margin: 25px;\">\n" +
         "  <div class=\"card-body\">\n" +
@@ -82,11 +81,11 @@ export const constructMailTemplate = (): string => {
         "  <div class=\"row\">\n" +
         "                   {{#each appointment}}\n" +
         "    <div class=\"col-sm\">\n" +
-        "<div class=\"card shadow-lg\" style=\"width: 18rem;\">\n" +
-        "  <div css=\"card-body\">\n" +
+        "<div class=\"card text-white bg-primary mb-3\" style=\"max-width: 18rem;\">\n" +
+        "  <div class=\"card-header\">Termin</div>\n" +
+        "  <div class=\"card-body\">\n" +
         "    <h5 class=\"card-title\">{{title}}</h5>\n" +
-        "    <p class=\"card-text\">{{startDate}}.</p>\n" +
-        "      <footer class=\"blockquote-footer\">{{endDate}}</footer>\n" +
+        "    <p class=\"card-text\">{{startDate}} - {{endDate}}</p>\n" +
         "  </div>\n" +
         "</div>" +
         "    </div>\n" +
