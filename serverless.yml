@@ -27,11 +27,11 @@ functions:
           eventType: daily
 
     # only for testing
-    - http:
-        cors: true
-        path: '/'
-        method: any
-    - http:
-        cors: true
-        path: '{proxy+}'
-        method: any
+    #- http:
+    #    cors: true
+    #    path: '/'
+    #    method: any
+    #- http:
+    #    cors: true
+    #    path: '{proxy+}'
+    #    method: any

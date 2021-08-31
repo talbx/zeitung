@@ -128,6 +128,6 @@ export const buildReplacementString = (allUpdates: ZeitungUpdates, userConfig: U
     const covidUpdate = "\"coronaUpdate\": [{\"cases\": " + allUpdates.coronaUpdate.cases + ",\"deaths\": " + allUpdates.coronaUpdate.deaths + ",\"weekIncidence\": " + allUpdates.coronaUpdate.weekIncidence.toFixed(2) + "}]}"
 
     finalString += covidUpdate;
-    console.log(finalString)
+    //console.log(finalString)
     return finalString.replace(/\n/, "");
 }
