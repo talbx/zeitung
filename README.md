@@ -1,14 +1,4 @@
-# Zeitung
-
-Zeitung is a serverless application that delivers relevant information via mail on a daily basis, written in Nestjs.
-
-The architecture is based on AWS services. It includes
-- Cloudfront
-- S3
-- Lambda
-- SES
-- DynamoDB
-- API Gateway
+Zeitung is just a AWS tryout project, which delivers information like recent podcast episodes, local news and covid updates via mail on a daily basis, written in Nestjs. it utilizes serverless framework for rapid deployment.
 
 ![Architecture](./zeitung-aws.svg)
 This repository addresses all interaction for the Lambda Function (Incoming Requests, DynamoDB queries, SES trigger)
